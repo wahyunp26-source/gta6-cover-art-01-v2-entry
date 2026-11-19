@@ -3,21 +3,88 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cover Snap</title>
+<title>Coral Sands Cover Studio — GTA-style cover maker</title>
 <link rel="stylesheet" href="./style.css">
 </head>
 <body>
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark">CS</span>
+    <div>
+      <h1>Coral Sands <span>Cover Studio</span></h1>
+      <p>Your photos, turned into a six-panel sunset cover.</p>
+    </div>
+  </div>
+  <div class="top-actions">
+    <button id="surprise" type="button" class="btn ghost">🎲 Surprise me</button>
+    <button id="export-all" type="button" class="btn primary">⬇ Export all 3 sizes</button>
+  </div>
+</header>
+
 <main class="app">
-  <section class="controls">
-    <h1>Cover Snap</h1>
-    <p>A photo and a caption, made into a square cover.</p>
-    <label>Photo <input id="photo" type="file" accept="image/*"></label>
-    <label>Caption <input id="caption" type="text" maxlength="40" value="Sunset Heist"></label>
-    <button id="export" type="button">Export PNG 1080 x 1080</button>
-    <p id="status" role="status"></p>
+  <aside class="panel left">
+    <h2>1 · Photos</h2>
+    <p class="hint">Click a photo to put it in the selected panel, or drag it straight onto the cover. Drop your own files onto any panel.</p>
+    <div id="strip" class="strip"></div>
+    <label class="btn file" for="upload">＋ Upload your own photo</label>
+    <input id="upload" type="file" accept="image/*" hidden>
+    <div class="row">
+      <button id="autofill" type="button" class="btn">Auto fill</button>
+      <button id="onephoto" type="button" class="btn">One photo → all</button>
+    </div>
+    <div class="row">
+      <button id="swap" type="button" class="btn">⇄ Swap panels</button>
+      <button id="recenter" type="button" class="btn">⌖ Re-centre</button>
+    </div>
+    <p id="selected-panel" class="selected">Panel 1</p>
+    <h2>Selected panel</h2>
+    <label>Place <input id="panel-place" type="text" maxlength="24"></label>
+    <label>Time <input id="panel-time" type="text" maxlength="12"></label>
+    <label>Note <input id="panel-note" type="text" maxlength="28"></label>
+    <p class="hint">On the cover: drag to pan · scroll to zoom · double-click to re-centre.</p>
+  </aside>
+
+  <section class="stage">
+    <canvas id="cover" width="1920" height="1080" aria-label="Live cover preview"></canvas>
+    <p id="status" role="status">Pick a photo, then export.</p>
   </section>
-  <canvas id="cover" width="1080" height="1080" aria-label="The cover"></canvas>
+
+  <aside class="panel right">
+    <h2>2 · Layout</h2>
+    <div id="layouts" class="picks"></div>
+    <h2>3 · Grade</h2>
+    <div id="grades" class="picks"></div>
+    <label>Grade strength <span id="grade-strength-val"></span>
+      <input id="grade-strength" type="range" min="0" max="1" step="0.05" value="0.85"></label>
+    <label>Contrast <span id="grade-contrast-val"></span>
+      <input id="grade-contrast" type="range" min="0.8" max="1.3" step="0.01" value="1"></label>
+    <label>Saturation <span id="grade-saturation-val"></span>
+      <input id="grade-saturation" type="range" min="0.8" max="1.5" step="0.01" value="1"></label>
+    <label>Grain <span id="grade-grain-val"></span>
+      <input id="grade-grain" type="range" min="0" max="1" step="0.05" value="0.5"></label>
+    <label class="check"><input id="fx-halftone" type="checkbox" checked> Halftone dots</label>
+    <label class="check"><input id="fx-vignette" type="checkbox" checked> Vignette</label>
+
+    <h2>4 · Words</h2>
+    <label>Title <input id="text-title" type="text" maxlength="20"></label>
+    <label>Subtitle (script) <input id="text-subtitle" type="text" maxlength="32"></label>
+    <label>Press quote <input id="text-quote" type="text" maxlength="48"></label>
+    <label>Quote source <input id="text-quotesource" type="text" maxlength="28"></label>
+    <label>Badge <input id="text-badge" type="text" maxlength="10"></label>
+    <label>Volume <input id="text-vol" type="text" maxlength="10"></label>
+    <label>Ribbon <input id="text-ribbon" type="text" maxlength="24"></label>
+    <label>Tagline <input id="text-tagline" type="text" maxlength="48"></label>
+    <label>Credits <input id="text-credits" type="text" maxlength="110"></label>
+
+    <h2>5 · Export</h2>
+    <div class="row">
+      <button id="export-square" type="button" class="btn">1080×1080</button>
+      <button id="export-portrait" type="button" class="btn">1080×1350</button>
+      <button id="export-wide" type="button" class="btn">1920×1080</button>
+    </div>
+    <p class="hint">PNG, straight from your machine — photos are never uploaded.</p>
+  </aside>
 </main>
-<script type="module" src="./src/main.js"></script>
+<script type="module" src="./src/app.js"></script>
 </body>
 </html>
